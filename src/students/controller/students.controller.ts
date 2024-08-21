@@ -1,4 +1,4 @@
-import { Controller, Post, Body, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Post, Body, InternalServerErrorException, Get } from '@nestjs/common';
 import { StudentsService } from '../service/students.service';
 import { CreateStudentDto } from '../dto/create-student.dto';
 
@@ -13,6 +13,16 @@ export class StudentsController {
     } catch (error) {
       console.error('Error in create:', error);
       throw new InternalServerErrorException('Failed to create student');
+    }
+  }
+
+    @Get()
+  async getAll() {
+    try {
+      return await this.studentsService.getAll();
+    } catch (error) {
+      console.error('Error in findAll:', error.message, error.stack);
+      throw new InternalServerErrorException('Failed to retrieve students');
     }
   }
 }

@@ -21,6 +21,12 @@ export class StudentsService {
       throw new InternalServerErrorException('Failed to create student');
     }
   }
+
+  async getAll(): Promise<Student[]> {
+    return this.studentRepository.find();
+  }
+
+
 }
 
   
