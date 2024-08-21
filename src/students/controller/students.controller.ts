@@ -1,4 +1,4 @@
-import { Controller, Post, Body, InternalServerErrorException, Get } from '@nestjs/common';
+import { Controller, Post, Body, InternalServerErrorException, Get, Param } from '@nestjs/common';
 import { StudentsService } from '../service/students.service';
 import { CreateStudentDto } from '../dto/create-student.dto';
 
@@ -23,6 +23,16 @@ export class StudentsController {
     } catch (error) {
       console.error('Error in findAll:', error.message, error.stack);
       throw new InternalServerErrorException('Failed to retrieve students');
+    }
+  }
+
+    @Get(':id')
+  async getById(@Param('id') id: number) {
+    try {
+      return await this.studentsService.getById(id);
+    } catch (error) {
+      console.error('Error in findOne:', error);
+      throw new InternalServerErrorException('Failed to retrieve student');
     }
   }
 }

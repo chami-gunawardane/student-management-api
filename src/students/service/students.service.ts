@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { StudentRepository } from '../repository/student.repository';
 import { CreateStudentDto } from '../dto/create-student.dto';
@@ -24,6 +24,14 @@ export class StudentsService {
 
   async getAll(): Promise<Student[]> {
     return this.studentRepository.find();
+  }
+
+    async getById(id: number): Promise<Student> {
+    const student = await this.studentRepository.findOne({ where: { id } });
+    if (!student) {
+      throw new NotFoundException(`Student with ID ${id} not found`);
+    }
+    return student;
   }
 
 
