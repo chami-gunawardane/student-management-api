@@ -1,4 +1,4 @@
-import { Controller, Post, Body, InternalServerErrorException, Get, Param, Put } from '@nestjs/common';
+import { Controller, Post, Body, InternalServerErrorException, Get, Param, Put, Delete } from '@nestjs/common';
 import { StudentsService } from '../service/students.service';
 import { CreateStudentDto } from '../dto/create-student.dto';
 import { UpdateStudentDto } from '../dto/update-student.dto';
@@ -46,4 +46,15 @@ export class StudentsController {
       throw new InternalServerErrorException('Failed to update student');
     }
   }
+
+    @Delete(':id')
+  async remove(@Param('id') id: number) {
+    try {
+      return await this.studentsService.remove(id);
+    } catch (error) {
+      console.error('Error in remove:', error);
+      throw new InternalServerErrorException('Failed to delete student');
+    }
+  }
+
 }
