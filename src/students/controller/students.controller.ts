@@ -1,6 +1,7 @@
-import { Controller, Post, Body, InternalServerErrorException, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, InternalServerErrorException, Get, Param, Put } from '@nestjs/common';
 import { StudentsService } from '../service/students.service';
 import { CreateStudentDto } from '../dto/create-student.dto';
+import { UpdateStudentDto } from '../dto/update-student.dto';
 
 @Controller('students')
 export class StudentsController {
@@ -33,6 +34,16 @@ export class StudentsController {
     } catch (error) {
       console.error('Error in findOne:', error);
       throw new InternalServerErrorException('Failed to retrieve student');
+    }
+  }
+
+    @Put(':id')
+  async update(@Param('id') id: number, @Body() updateStudentDto: UpdateStudentDto) {
+    try {
+      return await this.studentsService.update(id, updateStudentDto);
+    } catch (error) {
+      console.error('Error in update:', error);
+      throw new InternalServerErrorException('Failed to update student');
     }
   }
 }
